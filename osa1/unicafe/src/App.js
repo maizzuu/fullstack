@@ -1,5 +1,32 @@
 import React, { useState } from 'react'
 
+const Statistics = (props) => {
+  if (props.all === 0) {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
+  else {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>
+          good {props.good}<br></br>
+          neutral {props.neutral}<br></br>
+          bad {props.bad}<br></br>
+          all {props.all}<br></br>
+          average {(props.good*1+props.bad*-1)/props.all}<br></br>
+          positive {(props.good/props.all)*100} %
+        </p>
+      </div>
+    )
+  }
+  
+}
+
 const Button = (props) => {
   return (
     <button onClick={props.handleClick}>
@@ -20,15 +47,7 @@ const App = () => {
       <Button handleClick={() => setGood(good+1)} text="good">good</Button>
       <Button handleClick={() => setNeutral(neutral+1)} text="neutral">neutral</Button>
       <Button handleClick={() => setBad(bad+1)} text="bad">bad</Button>
-      <h1>statistics</h1>
-      <p>
-        good {good}<br></br>
-        neutral {neutral}<br></br>
-        bad {bad}<br></br>
-        all {all}<br></br>
-        average {(good*1+bad*-1)/all}<br></br>
-        positive {(good/all)*100} %
-      </p>
+      <Statistics good={good} bad={bad} neutral={neutral} all={all}></Statistics>
     </div>
   )
 }
