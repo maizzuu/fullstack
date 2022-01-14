@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 
 const StatisticLine = (props) => {
   return (
-    <div>
-      {props.text} {props.value}
-    </div>
+    <tbody>
+      <tr>
+        <td>{props.text}</td>
+        <td>{props.value}</td>
+      </tr>
+    </tbody>
   )
 }
 
@@ -19,17 +22,14 @@ const Statistics = (props) => {
   }
   else {
     return (
-      <div>
-        <h1>statistics</h1>
-        <p>
+      <table>
           <StatisticLine text="good" value={props.good} />
           <StatisticLine text="neutral" value={props.neutral} />
           <StatisticLine text="bad" value={props.bad} />
           <StatisticLine text="all" value={props.all} />
           <StatisticLine text="average" value={(props.good*1+props.bad*-1)/props.all} />
           <StatisticLine text="positive" value={(props.good/props.all)*100 + " %"} />
-        </p>
-      </div>
+      </table>
     )
   }
 }
@@ -54,6 +54,7 @@ const App = () => {
       <Button handleClick={() => setGood(good+1)} text="good">good</Button>
       <Button handleClick={() => setNeutral(neutral+1)} text="neutral">neutral</Button>
       <Button handleClick={() => setBad(bad+1)} text="bad">bad</Button>
+      <h1>statistics</h1>
       <Statistics good={good} bad={bad} neutral={neutral} all={all}></Statistics>
     </div>
   )
