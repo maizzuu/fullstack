@@ -5,6 +5,14 @@ const Random = (n) => {
   return r
 }
 
+const Vote = (selected, votes) => {
+  console.log(votes)
+  const copy = [...votes]
+  copy[selected]+=1
+  console.log(copy)
+  return (copy)
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -18,11 +26,13 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const n = anecdotes.length
+  const [votes, setVotes] = useState([0,0,0,0,0,0,0])
 
   return (
     <div>
-      {anecdotes[selected]}
-      <br></br>
+      <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={() => setVotes(Vote(selected, votes))}>Vote</button>
       <button onClick={() => setSelected(Random(n))}>Next</button>
     </div>
   )
