@@ -1,7 +1,11 @@
 import React from "react";
 import Country from "./Country";
 
-const ShowCountries = ({ countries, filter }) => {
+const ShowCountries = ({ countries, filter, setNewFilter }) => {
+  const handleClick = (country) => {
+    setNewFilter(country.name.common);
+  };
+
   if (filter === "") {
     return null;
   } else {
@@ -15,11 +19,16 @@ const ShowCountries = ({ countries, filter }) => {
         </div>
       );
     }
-    if (1 < countries.length < 10) {
+    if (countries.length < 10) {
       return (
         <div>
           {countries.map((country) => (
-            <p key={country.name.common}>{country.name.common}</p>
+            <p key={country.name.common}>
+              {country.name.common}{" "}
+              <button onClick={() => handleClick((country = country))}>
+                show
+              </button>
+            </p>
           ))}
         </div>
       );
