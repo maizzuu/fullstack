@@ -19,7 +19,6 @@ const App = () => {
   const handleNewFilter = (event) => {
     setNewFilter(event.target.value);
   };
-
   return (
     <div>
       find countries: <input value={newFilter} onChange={handleNewFilter} />

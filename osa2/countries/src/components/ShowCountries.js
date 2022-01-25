@@ -1,5 +1,6 @@
 import React from "react";
 import Country from "./Country";
+import Weather from "./Weather";
 
 const ShowCountries = ({ countries, filter, setNewFilter }) => {
   const handleClick = (countryName) => {
@@ -17,6 +18,10 @@ const ShowCountries = ({ countries, filter, setNewFilter }) => {
       return (
         <div>
           <Country country={countries[0]} />
+          <Weather
+            capital={countries[0].capital[0]}
+            country={countries[0].name.common}
+          />
         </div>
       );
     }
