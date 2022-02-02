@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const personsToShow = persons.filter((person) =>
     person.name.toLowerCase().includes(newFilter.toLowerCase())
   );
@@ -41,8 +42,8 @@ const App = () => {
           );
           setNewNumber("");
           setNewName("");
-          setErrorMessage(`Updated ${newName}`);
-          setTimeout(() => setErrorMessage(null), 4000);
+          setSuccessMessage(`Updated ${newName}`);
+          setTimeout(() => setSuccessMessage(null), 4000);
         });
       }
     } else {
@@ -54,8 +55,8 @@ const App = () => {
         setPersons(persons.concat(response));
         setNewNumber("");
         setNewName("");
-        setErrorMessage(`Added ${newName}`);
-        setTimeout(() => setErrorMessage(null), 4000);
+        setSuccessMessage(`Added ${newName}`);
+        setTimeout(() => setSuccessMessage(null), 4000);
       });
     }
   };
@@ -63,11 +64,19 @@ const App = () => {
   const removePerson = (id) => {
     const persontoRemove = persons.filter((p) => p.id === id)[0];
     if (window.confirm(`Delete ${persontoRemove.name}?`)) {
-      service.remove(id).then((response) => {
-        setPersons(persons.filter((p) => p.id !== id));
-        setErrorMessage(`Removed ${persontoRemove.name}`);
-        setTimeout(() => setErrorMessage(null), 4000);
-      });
+      service
+        .remove(id)
+        .then((response) => {
+          setPersons(persons.filter((p) => p.id !== id));
+          setSuccessMessage(`Removed ${persontoRemove.name}`);
+          setTimeout(() => setSuccessMessage(null), 4000);
+        })
+        .catch((error) => {
+          setErrorMessage(
+            `Person ${persontoRemove.name} was already removed from server`
+          );
+          setTimeout(() => setErrorMessage(null), 4000);
+        });
     }
   };
 
@@ -86,7 +95,8 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} type="error" />
+      <Notification message={successMessage} type="success" />
       <h2>Add a new person</h2>
       <NewPersonForm
         addPerson={addPerson}
