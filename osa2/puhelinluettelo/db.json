@@ -16,19 +16,9 @@
       "id": 3
     },
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
+      "name": "test",
+      "number": "1",
       "id": 4
-    },
-    {
-      "name": "Joonas Korhonen",
-      "number": "00000000",
-      "id": 5
-    },
-    {
-      "name": "Kalle Joukonen",
-      "number": "12345",
-      "id": 6
     }
   ]
 }

@@ -29,9 +29,18 @@ const App = () => {
         number: newNumber,
       };
       service.create(personObject).then((response) => {
-        setPersons(persons.concat(personObject));
+        setPersons(persons.concat(response));
         setNewNumber("");
         setNewName("");
+      });
+    }
+  };
+
+  const removePerson = (id) => {
+    const persontoRemove = persons.filter((p) => p.id === id)[0];
+    if (window.confirm(`Delete ${persontoRemove.name}?`)) {
+      service.remove(id).then((response) => {
+        setPersons(persons.filter((p) => p.id !== id));
       });
     }
   };
@@ -61,7 +70,7 @@ const App = () => {
       />
       <h2>Numbers</h2>
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
-      <ShowPersons personsToShow={personsToShow} />
+      <ShowPersons personsToShow={personsToShow} remove={removePerson} />
     </div>
   );
 };

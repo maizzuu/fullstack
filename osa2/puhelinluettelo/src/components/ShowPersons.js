@@ -1,12 +1,17 @@
 import React from "react";
+import Person from "./Person";
 
-const ShowPersons = (props) => {
+const ShowPersons = ({ personsToShow, remove }) => {
   return (
     <div>
-      {props.personsToShow.map((person) => (
-        <p key={person.name}>
-          <b>{person.name}</b> {person.number}
-        </p>
+      {personsToShow.map((person) => (
+        <Person
+          key={person.id}
+          name={person.name}
+          number={person.number}
+          handleRemove={remove}
+          id={person.id}
+        />
       ))}
     </div>
   );
