@@ -22,7 +22,26 @@ const App = () => {
     event.preventDefault();
     const exists = persons.filter((person) => person.name === newName);
     if (exists.length > 0) {
-      alert(`${newName} is already in the phonebook`);
+      if (
+        window.confirm(
+          `${newName} is already in the phonebook, do you want to replace the old number?`
+        )
+      ) {
+        const personObject = {
+          name: exists[0].name,
+          number: newNumber,
+          id: exists[0].id,
+        };
+        service.update(personObject.id, personObject).then((response) => {
+          setPersons(
+            persons.map((person) =>
+              person.id != personObject.id ? person : response
+            )
+          );
+          setNewNumber("");
+          setNewName("");
+        });
+      }
     } else {
       const personObject = {
         name: newName,
