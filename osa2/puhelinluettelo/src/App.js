@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import NewPersonForm from "./components/NewPersonForm";
 import Filter from "./components/Filter";
 import ShowPersons from "./components/ShowPersons";
+import Notification from "./components/Notification";
 import service from "./services/persons";
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
   const personsToShow = persons.filter((person) =>
     person.name.toLowerCase().includes(newFilter.toLowerCase())
   );
@@ -40,6 +41,8 @@ const App = () => {
           );
           setNewNumber("");
           setNewName("");
+          setErrorMessage(`Updated ${newName}`);
+          setTimeout(() => setErrorMessage(null), 4000);
         });
       }
     } else {
@@ -51,6 +54,8 @@ const App = () => {
         setPersons(persons.concat(response));
         setNewNumber("");
         setNewName("");
+        setErrorMessage(`Added ${newName}`);
+        setTimeout(() => setErrorMessage(null), 4000);
       });
     }
   };
@@ -60,6 +65,8 @@ const App = () => {
     if (window.confirm(`Delete ${persontoRemove.name}?`)) {
       service.remove(id).then((response) => {
         setPersons(persons.filter((p) => p.id !== id));
+        setErrorMessage(`Removed ${persontoRemove.name}`);
+        setTimeout(() => setErrorMessage(null), 4000);
       });
     }
   };
@@ -79,6 +86,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={errorMessage} />
       <h2>Add a new person</h2>
       <NewPersonForm
         addPerson={addPerson}
