@@ -51,13 +51,18 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      service.create(personObject).then((response) => {
-        setPersons(persons.concat(response));
-        setNewNumber("");
-        setNewName("");
-        setSuccessMessage(`Added ${newName}`);
-        setTimeout(() => setSuccessMessage(null), 4000);
-      });
+      service
+        .create(personObject)
+        .then((response) => {
+          setPersons(persons.concat(response));
+          setNewNumber("");
+          setNewName("");
+          setSuccessMessage(`Added ${newName}`);
+          setTimeout(() => setSuccessMessage(null), 4000);
+        })
+        .catch((error) => {
+          setErrorMessage(error.response.data.error);
+        });
     }
   };
 
