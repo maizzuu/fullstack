@@ -9,4 +9,11 @@ const totalLikes = (blogs) => {
   return sum
 }
 
-module.exports = { dummy, totalLikes }
+const favoriteBlog = (blogs) => {
+  let result = blogs.sort(function (a, b) {
+    return b.likes - a.likes
+  })[0]
+  return result
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog }
