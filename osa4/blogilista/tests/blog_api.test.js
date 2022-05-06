@@ -33,6 +33,13 @@ test("all blogs are returned", async () => {
   expect(response.body).toHaveLength(initialBlogs.length)
 })
 
+test("all blogs are returnes as json", async () => {
+  await api
+    .get("/api/blogs")
+    .expect(200)
+    .expect("Content-Type", /application\/json/)
+})
+
 test("id field name is correct", async () => {
   const response = await api.get("/api/blogs")
 
