@@ -87,6 +87,15 @@ test("new blog with no defined likes defaults to 0", async () => {
   expect(response.body[2].likes).toEqual(0)
 })
 
+test("blog with no title or url gives status 400", async () => {
+  const newBlog = {
+    _id: "5a422b891b54a676234d17fa",
+    author: "Robert C. Martin",
+    __v: 0,
+  }
+  await api.post("/api/blogs").send(newBlog).expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
