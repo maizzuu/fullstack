@@ -46,6 +46,28 @@ test("id field name is correct", async () => {
   expect(response.body[0].id).toBeDefined()
 })
 
+test("blog can be added", async () => {
+  const newBlog = {
+    _id: "5a422b891b54a676234d17fa",
+    title: "First class tests",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    likes: 10,
+    __v: 0,
+  }
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/)
+
+  const response = await api.get("/api/blogs")
+  expect(response.body).toHaveLength(initialBlogs.length + 1)
+  const titles = response.body.map((b) => b.title)
+  expect(titles).toContain("First class tests")
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
