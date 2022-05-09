@@ -96,6 +96,14 @@ test("blog with no title or url gives status 400", async () => {
   await api.post("/api/blogs").send(newBlog).expect(400)
 })
 
+test("blog gets deleted", async () => {
+  await api.delete("/api/blogs/5a422a851b54a676234d17f7")
+
+  const response = await api.get("/api/blogs")
+
+  expect(response.body).toHaveLength(1)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
