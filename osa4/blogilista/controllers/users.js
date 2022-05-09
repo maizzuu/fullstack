@@ -10,6 +10,34 @@ usersRouter.get("/", async (request, response) => {
 usersRouter.post("/", async (request, response) => {
   const { username, name, password } = request.body
 
+  if (!username) {
+    return response
+      .status(400)
+      .json({ error: "username field cannot be empty" })
+  }
+  if (!password) {
+    return response
+      .status(400)
+      .json({ error: "password field cannot be empty" })
+  }
+  if (username.length < 3) {
+    return response
+      .status(400)
+      .json({ error: "username must consist of at least 3 characters" })
+  }
+  if (password.length < 3) {
+    return response
+      .status(400)
+      .json({ error: "password must consist of at least 3 characters" })
+  }
+
+  const exists = await User.findOne({ username })
+  if (exists) {
+    return response.status(400).json({
+      error: "username is already taken",
+    })
+  }
+
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)
 
