@@ -104,6 +104,18 @@ test("blog gets deleted", async () => {
   expect(response.body).toHaveLength(1)
 })
 
+test("updating a blog works", async () => {
+  const blog = {
+    title: "Updated blog",
+  }
+
+  await api.put("/api/blogs/5a422a851b54a676234d17f7").send(blog)
+
+  const response = await api.get("/api/blogs")
+
+  expect(response.body[0].title).toContain("Updated blog")
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
