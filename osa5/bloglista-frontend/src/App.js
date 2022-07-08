@@ -4,15 +4,13 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import BlogForm from "./components/BlogForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
   const [message, setMessage] = useState(null);
   const [type, setType] = useState(null);
 
@@ -51,18 +49,9 @@ const App = () => {
     }
   };
 
-  const addBlog = async (event) => {
-    event.preventDefault();
-    const blogObj = {
-      title: title,
-      author: author,
-      url: url,
-    };
+  const addBlog = async (blogObj) => {
     const data = await blogService.create(blogObj);
     setBlogs(blogs.concat(data));
-    setTitle("");
-    setAuthor("");
-    setUrl("");
 
     setMessage(`a new blog ${blogObj.title} by ${blogObj.author} added!`);
     setType("notification");
@@ -99,44 +88,6 @@ const App = () => {
     </form>
   );
 
-  const CreateForm = ({
-    title,
-    handleTitle,
-    author,
-    handleAuthor,
-    url,
-    handleUrl,
-    onSubmit,
-  }) => {
-    return (
-      <form>
-        <h3>create new</h3>
-        <p>
-          title:
-          <input
-            type="text"
-            name="title"
-            value={title}
-            onChange={handleTitle}
-          />
-          <br />
-          author:{" "}
-          <input
-            type="text"
-            name="author"
-            value={author}
-            onChange={handleAuthor}
-          />{" "}
-          <br />
-          url: <input type="text" name="url" value={url} onChange={handleUrl} />
-          <button type="submit" onClick={onSubmit}>
-            create
-          </button>
-        </p>
-      </form>
-    );
-  };
-
   const blogList = () => (
     <div>
       <h1>blogsite</h1>
@@ -154,15 +105,7 @@ const App = () => {
       </p>
 
       <Togglable buttonLabel="new blog">
-        <CreateForm
-          title={title}
-          handleTitle={(target) => setTitle(target.target.value)}
-          author={author}
-          handleAuthor={(target) => setAuthor(target.target.value)}
-          url={url}
-          handleUrl={(target) => setUrl(target.target.value)}
-          onSubmit={addBlog}
-        />
+        <BlogForm onSubmit={addBlog} />
       </Togglable>
 
       {blogs.map((blog) => (
