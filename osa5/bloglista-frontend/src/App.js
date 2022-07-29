@@ -66,6 +66,15 @@ const App = () => {
     }, 5000);
   };
 
+  const removeBlog = (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      blogService.remove(blog.id).then(() => {
+        const now = blogs.filter((b) => b.id !== blog.id);
+        setBlogs(now);
+      });
+    }
+  };
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <h3>log in:</h3>
@@ -114,7 +123,12 @@ const App = () => {
       </Togglable>
 
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          showRemove={blog.user.name === user.name}
+          handleRemove={removeBlog}
+        />
       ))}
     </div>
   );

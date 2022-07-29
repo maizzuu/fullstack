@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, showRemove, handleRemove }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -34,6 +34,10 @@ const Blog = ({ blog }) => {
           likes {likes} <button onClick={() => handleLike()}>like</button>
           <br />
           {blog.user?.name}
+          <br />
+          {showRemove && (
+            <button onClick={() => handleRemove(blog)}>remove</button>
+          )}
         </>
       )}
     </div>
