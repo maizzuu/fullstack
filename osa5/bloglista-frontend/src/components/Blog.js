@@ -16,7 +16,7 @@ const Blog = ({ blog }) => {
     const obj = {
       ...blog,
       user: blog.user.id,
-      likes: blog.likes + 1,
+      likes: likes + 1,
     };
     blogService.like(obj);
     setLikes(likes + 1);
