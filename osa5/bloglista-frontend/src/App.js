@@ -75,6 +75,15 @@ const App = () => {
     }
   };
 
+  const likeBlog = (blog) => {
+    const obj = {
+      ...blog,
+      user: blog.user.id,
+      likes: blog.likes + 1,
+    };
+    blogService.like(obj);
+  };
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <h3>log in:</h3>
@@ -128,6 +137,7 @@ const App = () => {
           blog={blog}
           showRemove={blog.user.name === user.name}
           handleRemove={removeBlog}
+          handleLike={likeBlog}
         />
       ))}
     </div>

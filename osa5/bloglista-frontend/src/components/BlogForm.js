@@ -27,6 +27,7 @@ const BlogForm = (props) => {
         <input
           type="text"
           name="title"
+          placeholder="title here"
           value={title}
           onChange={(target) => setTitle(target.target.value)}
         />
@@ -35,6 +36,7 @@ const BlogForm = (props) => {
         <input
           type="text"
           name="author"
+          placeholder="author here"
           value={author}
           onChange={(target) => setAuthor(target.target.value)}
         />{" "}
@@ -43,6 +45,7 @@ const BlogForm = (props) => {
         <input
           type="text"
           name="url"
+          placeholder="url here"
           value={url}
           onChange={(target) => setUrl(target.target.value)}
         />
