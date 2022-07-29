@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import blogService from "../services/blogs";
+
 const Blog = ({ blog }) => {
   const blogStyle = {
     paddingTop: 10,
@@ -8,6 +10,17 @@ const Blog = ({ blog }) => {
     marginBottom: 5,
   };
   const [open, setOpen] = useState(false);
+  const [likes, setLikes] = useState(blog.likes);
+
+  const handleLike = () => {
+    const obj = {
+      ...blog,
+      user: blog.user.id,
+      likes: blog.likes + 1,
+    };
+    blogService.like(obj);
+    setLikes(likes + 1);
+  };
 
   return (
     <div style={blogStyle}>
@@ -18,9 +31,9 @@ const Blog = ({ blog }) => {
           <br />
           {blog.url}
           <br />
-          likes {blog.likes} <button>like</button>
+          likes {likes} <button onClick={() => handleLike()}>like</button>
           <br />
-          {blog.user.name}
+          {blog.user?.name}
         </>
       )}
     </div>
