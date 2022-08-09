@@ -21,9 +21,14 @@ const Blog = ({ blog, showRemove, handleRemove, handleLike }) => {
   const [likes, setLikes] = useState(blog.likes);
 
   return (
-    <div style={blogStyle} data-testid="blog">
+    <div style={blogStyle} data-testid="blog" className="blog">
       {blog.title} {blog.author}{" "}
-      <button onClick={() => setOpen(!open)}>{open ? "hide" : "view"}</button>
+      <button
+        onClick={() => setOpen(!open)}
+        id={`view${blog.title.replace(" ", "")}`}
+      >
+        {open ? "hide" : "view"}
+      </button>
       {open && (
         <>
           <br />
@@ -31,6 +36,7 @@ const Blog = ({ blog, showRemove, handleRemove, handleLike }) => {
           <br />
           likes {likes}{" "}
           <button
+            id={`like${blog.title.replace(" ", "")}`}
             onClick={() => {
               handleLike(blog);
               setLikes(likes + 1);
@@ -42,7 +48,12 @@ const Blog = ({ blog, showRemove, handleRemove, handleLike }) => {
           {blog.user?.name}
           <br />
           {showRemove && (
-            <button onClick={() => handleRemove(blog)}>remove</button>
+            <button
+              onClick={() => handleRemove(blog)}
+              id={`remove${blog.title.replace(" ", "")}`}
+            >
+              remove
+            </button>
           )}
         </>
       )}
