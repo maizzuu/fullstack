@@ -8,9 +8,11 @@ const notificationSlice = createSlice({
   reducers: {
     setNotif(state, action) {
       state = action.payload;
+      return state;
     },
     clearNotif(state, action) {
       state = null;
+      return state;
     },
   },
 });
