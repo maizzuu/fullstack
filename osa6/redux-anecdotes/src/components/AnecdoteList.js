@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { voteFor } from "../reducers/anecdoteReducer";
+import { setAnecdotes, voteFor } from "../reducers/anecdoteReducer";
 import { clearNotif, setNotif } from "../reducers/notificationReducer";
+import anecdoteService from "../services/anecdotes";
 
 const AnecdoteList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    anecdoteService.getAll().then((list) => dispatch(setAnecdotes(list)));
+  }, [dispatch]);
   const beforeSorting = useSelector((state) => {
     return state.filter === ""
       ? state.anecdotes
@@ -12,7 +17,6 @@ const AnecdoteList = () => {
   const anecdotes = beforeSorting.sort((a, b) => {
     return b.votes - a.votes;
   });
-  const dispatch = useDispatch();
 
   const vote = (id, content) => {
     dispatch(voteFor(id));
