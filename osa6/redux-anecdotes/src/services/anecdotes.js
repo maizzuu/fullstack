@@ -12,4 +12,9 @@ const create = async (content) => {
   return response.data;
 };
 
-export default { getAll, create };
+const vote = async (updatedObj) => {
+  const response = await axios.put(`${baseUrl}/${updatedObj.id}`, updatedObj);
+  return response.data;
+};
+
+export default { getAll, create, vote };

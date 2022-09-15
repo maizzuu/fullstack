@@ -1,27 +1,24 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAnecdotes, voteFor } from "../reducers/anecdoteReducer";
-import { clearNotif, setNotif } from "../reducers/notificationReducer";
-import anecdoteService from "../services/anecdotes";
+import { voteFor } from "../reducers/anecdoteReducer";
+import { setNotification } from "../reducers/notificationReducer";
 
 const AnecdoteList = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    anecdoteService.getAll().then((list) => dispatch(setAnecdotes(list)));
-  }, [dispatch]);
   const beforeSorting = useSelector((state) => {
     return state.filter === ""
       ? state.anecdotes
       : state.anecdotes.filter((item) => item.content.includes(state.filter));
   });
-  const anecdotes = beforeSorting.sort((a, b) => {
+
+  const anecdotes = [...beforeSorting].sort((a, b) => {
     return b.votes - a.votes;
   });
 
-  const vote = (id, content) => {
-    dispatch(voteFor(id));
-    dispatch(setNotif(`you voted for "${content}"`));
-    setTimeout(() => dispatch(clearNotif()), 5000);
+  const vote = (obj) => {
+    const voted = { ...obj, votes: obj.votes + 1 };
+    dispatch(voteFor(voted));
+    dispatch(setNotification(`you voted for "${obj.content}"`, 5000));
   };
 
   return (
@@ -31,9 +28,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id, anecdote.content)}>
-              vote
-            </button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       ))}

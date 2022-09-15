@@ -1,51 +1,48 @@
-const anecdotesAtStart = [];
-const getId = () => (100000 * Math.random()).toFixed(0);
+import { createSlice } from "@reduxjs/toolkit";
+import anecdoteService from "../services/anecdotes";
 
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0,
-  };
-};
-
-const initialState = anecdotesAtStart.map(asObject);
-
-export const voteFor = (id) => {
-  return {
-    type: "VOTE",
-    data: { id: id },
-  };
-};
-
-export const createNew = (data) => {
-  return {
-    type: "CREATE",
-    data: data,
-  };
-};
-
-export const setAnecdotes = (anecdoteList) => {
-  return { type: "SET", data: anecdoteList };
-};
-
-const anecdoteReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "VOTE":
-      const anecdoteToUpdate = state.find((a) => a.id === action.data.id);
-      const updated = {
-        ...anecdoteToUpdate,
-        votes: anecdoteToUpdate.votes + 1,
+const anecdoteSlice = createSlice({
+  name: "anecdote",
+  initialState: [],
+  reducers: {
+    vote(state, action) {
+      const id = action.payload;
+      const toBeChanged = state.find((a) => a.id === id);
+      const changed = {
+        ...toBeChanged,
+        votes: toBeChanged.votes + 1,
       };
-      return state.map((a) => (a.id !== action.data.id ? a : updated));
-    case "CREATE":
-      const newObj = asObject(action.data.content);
-      return state.concat(newObj);
-    case "SET":
-      return action.data;
-    default:
-      return state;
-  }
+      return state.map((a) => (a.id !== id ? a : changed));
+    },
+    setAnecdotes(state, action) {
+      return action.payload;
+    },
+    addAnecdote(state, action) {
+      state.push(action.payload);
+    },
+  },
+});
+
+export const { vote, setAnecdotes, addAnecdote } = anecdoteSlice.actions;
+
+export const initialize = () => {
+  return async (dispatch) => {
+    const anecdotes = await anecdoteService.getAll();
+    dispatch(setAnecdotes(anecdotes));
+  };
 };
 
-export default anecdoteReducer;
+export const createNew = (content) => {
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.create(content);
+    dispatch(addAnecdote(newAnecdote));
+  };
+};
+
+export const voteFor = (anecdote) => {
+  return async (dispatch) => {
+    const updated = await anecdoteService.vote(anecdote);
+    dispatch(vote(updated.id));
+  };
+};
+export default anecdoteSlice.reducer;
