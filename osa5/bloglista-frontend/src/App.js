@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
+import Users from "./components/Users";
+import User from "./components/User";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -116,8 +119,8 @@ const App = () => {
     </form>
   );
 
-  const blogList = () => (
-    <div>
+  const top = () => (
+    <>
       <h1>blogsite</h1>
       <Notification type={type} message={message} />
       <p>
@@ -131,7 +134,11 @@ const App = () => {
           logout
         </button>
       </p>
+    </>
+  );
 
+  const blogList = () => (
+    <div>
       <Togglable buttonLabel="new blog">
         <BlogForm onSubmit={addBlog} />
       </Togglable>
@@ -147,8 +154,20 @@ const App = () => {
       ))}
     </div>
   );
+  return (
+    <Router>
+      <div>{user && top()}</div>
 
-  return <div>{user ? blogList() : loginForm()}</div>;
+      <Routes>
+        <Route
+          path="/"
+          element={<div>{user ? blogList() : loginForm()}</div>}
+        />
+        <Route path="/users" element={<Users />} />
+        <Route path="/users/:id" element={<User />} />
+      </Routes>
+    </Router>
+  );
 };
 
 export default App;

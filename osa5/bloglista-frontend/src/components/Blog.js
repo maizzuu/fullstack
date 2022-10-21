@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import blogService from "../services/blogs";
 import PropTypes from "prop-types";
 
 const Blog = ({ blog, showRemove, handleRemove, handleLike }) => {
@@ -45,7 +44,7 @@ const Blog = ({ blog, showRemove, handleRemove, handleLike }) => {
             like
           </button>
           <br />
-          {blog.user?.name}
+          {blog.user.name || ""}
           <br />
           {showRemove && (
             <button
