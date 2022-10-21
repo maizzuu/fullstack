@@ -73,4 +73,11 @@ blogsRouter.put("/:id", async (request, response) => {
   }
 });
 
+blogsRouter.get("/:id", async (request, response) => {
+  const blog = await Blog.findById(request.params.id).populate("user", {
+    name: 1,
+  });
+  response.json(blog);
+});
+
 module.exports = blogsRouter;

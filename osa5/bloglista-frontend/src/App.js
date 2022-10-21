@@ -8,6 +8,7 @@ import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
 import Users from "./components/Users";
 import User from "./components/User";
+import BlogView from "./components/BlogView";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -165,6 +166,7 @@ const App = () => {
         />
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<User />} />
+        <Route path="/blogs/:id" element={<BlogView />} />
       </Routes>
     </Router>
   );

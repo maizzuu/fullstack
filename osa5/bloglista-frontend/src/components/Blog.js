@@ -21,7 +21,9 @@ const Blog = ({ blog, showRemove, handleRemove, handleLike }) => {
 
   return (
     <div style={blogStyle} data-testid="blog" className="blog">
-      {blog.title} {blog.author}{" "}
+      <a href={`/blogs/${blog.id}`}>
+        {blog.title} {blog.author}{" "}
+      </a>
       <button
         onClick={() => setOpen(!open)}
         id={`view${blog.title.replace(" ", "")}`}
